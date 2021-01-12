@@ -1,4 +1,4 @@
-from main_app.first_app.models import TaskList
+from first_app.models import TaskList
 from django.shortcuts import render
 from django.http import HttpResponse
 

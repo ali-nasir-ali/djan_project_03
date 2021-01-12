@@ -5,6 +5,28 @@ TO DO LIST
 {% endblock head_title %}
  
 {% block content %}
+<div class = "container">
+</br>
+    <table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Task</th>
+      <th scope="col">Done</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for obj in all_tasks %}
+    <tr>
+      <th scope="row">{{ obj.task}}</th>
+      <td>{{ obj.done }}</td>
+      <td>Edit</td>
+      <td>delete</td>
+    </tr>
 
- 
+{% endfor %}
+  </tbody>
+</table>
+ </div> 
 {% endblock content %}
