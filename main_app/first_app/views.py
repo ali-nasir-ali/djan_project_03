@@ -1,12 +1,11 @@
+from main_app.first_app.models import TaskList
 from django.shortcuts import render
 from django.http import HttpResponse
 
 # Create your views here.
 def todolist(request):
-    context = {
-        'welcome_text':"welcome from todolist."
-    }
-    return render(request, 'todolist.html', context)
+    all_tasks = TaskList.objects.all
+    return render(request, 'todolist.html', {'all_tasks':all_tasks})
 
 def about(request):
     context = {
