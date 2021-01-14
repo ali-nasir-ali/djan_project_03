@@ -1,8 +1,10 @@
+from django.core import paginator
 from django.shortcuts import render , redirect
 from django.http import HttpResponse
 from first_app.models import TaskList
 from first_app.forms import TaskForm
 from django.contrib  import messages
+from django.core.paginator import Paginator
  
 # Create your views here.
 def todolist(request):
@@ -13,7 +15,10 @@ def todolist(request):
         messages.success(request,("New Task Added"))    
         return redirect('todolist')   
     else: 
-        all_tasks = TaskList.objects.all
+        all_tasks = TaskList.objects.all()
+        paginator = Paginator(all_tasks, 5)
+        page = request.GET.get('pg')
+        all_tasks = paginator.get_page(page)
         return render(request, 'todolist.html', {'all_tasks':all_tasks})
 
 def edit_task(request, task_id):
