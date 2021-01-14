@@ -5,28 +5,26 @@ TO DO LIST
 {% endblock head_title %}
  
 {% block content %}
-<div class = "container">
-</br>
- {% if messages %}
+ <div class = "container">
+  </br>
+  {% if messages %}
    {% for message in messages %}
-    <div class="alert alert-info alert-dismissible fade show" role="alert">
-       {{ message  }}
-       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+       <strong>{{ message  }}</strong>
+       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
            <span aria-hidden="true">&times;</span>
        </button>      
-    </div>
+     </div>
    {% endfor %}
- {% endif %}
+  {% endif %}
 
-<form method="POST">
-{% csrf_token %}
-  <div class="mb-3">  
-
-  <input type="text" class="form-control" name="task" placeholder="New Task?">
-   
-  <button type="submit" class="btn btn-primary">Submit</button>
-</br></br>
-</form>
+ <form method="POST" class="row">
+ {% csrf_token %}
+  <label class="col-lg-4"></label>
+  <input type="text" class="form-control col-lg-6" name="task" placeholder="New Task?">
+  <button type="submit" class="btn btn-primary col-lg-2">Add Task</button>
+ </br></br>
+ </form>
     <table class="table table-hover">
   <thead class="thead-dark">
     <tr>
@@ -37,26 +35,26 @@ TO DO LIST
     </tr>
   </thead>
   <tbody>
-{% if all_tasks %}  
- {% for obj in all_tasks %}
+  {% if all_tasks %}  
+   {% for obj in all_tasks %}
     {% if obj.done %}    
         <tr class="table-success">
           <th>{{ obj.task}}</th>
-          <td>Completed</td>
-          <td>Edit</td>
-          <td>delete</td>
+          <td><a href="{% url 'pending_task' obj.id %}">Mark This Pending</a></td>
+          <td><a href="{% url 'edit_task' obj.id %}">Edit</a></td>
+          <td><a href="{% url 'delete_task' obj.id %}">Delete</a></td>
         </tr>
     {% else %}    
         <tr>
           <th>{{ obj.task}}</th>
-          <td>Not Completed</td>
-          <td>Edit</td>
-          <td>delete</td>
+          <td><a href="{% url 'complete_task' obj.id %}">Mark This Complete</a></td>
+          <td><a href="{% url 'edit_task' obj.id %}">edit</a></td>
+          <td><a href="{% url 'delete_task' obj.id %}">delete</a></td>
         </tr>
     {% endif %}
- {% endfor %}
-{% endif %} 
-  </tbody>
-</table>
+   {% endfor %}
+  {% endif %} 
+   </tbody>
+  </table>
  </div> 
 {% endblock content %}
