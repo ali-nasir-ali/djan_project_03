@@ -7,6 +7,15 @@ TO DO LIST
 {% block content %}
 <div class = "container">
 </br>
+ {% if messages %}
+   {% for message in messages %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+     {{ message  }}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    </div>
+   {% endfor %}
+ {% endif %}
+
 <form method="POST">
 {% csrf_token %}
   <div class="mb-3">
@@ -25,7 +34,8 @@ TO DO LIST
     </tr>
   </thead>
   <tbody>
-{% for obj in all_tasks %}
+{% if all_tasks %}  
+ {% for obj in all_tasks %}
     {% if obj.done %}    
         <tr class="table-success">
           <th>{{ obj.task}}</th>
@@ -41,7 +51,8 @@ TO DO LIST
           <td>delete</td>
         </tr>
     {% endif %}
-{% endfor %}
+ {% endfor %}
+{% endif %} 
   </tbody>
 </table>
  </div> 
