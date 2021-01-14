@@ -2,14 +2,14 @@ from django.shortcuts import render , redirect
 from django.http import HttpResponse
 from first_app.models import TaskList
 from first_app.forms import TaskForm
-
+ 
 # Create your views here.
 def todolist(request):
     if request.method == "POST":
         form = TaskForm(request.POST or None)
         if form.is_valid():
             form.save()
-        return redirect('todolist.html')   
+        return redirect('todolist')   
     else: 
         all_tasks = TaskList.objects.all
         return render(request, 'todolist.html', {'all_tasks':all_tasks})
