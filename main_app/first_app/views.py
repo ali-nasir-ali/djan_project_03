@@ -50,6 +50,12 @@ def delete_task(request,task_id):
     task.delete()
     return redirect('todolist')
 
+def index(request):
+    context = {
+        'welcome_text':"welcome from index."
+    }
+    return render(request, 'index.html', context)
+
 def about(request):
     context = {
         'welcome_text':"welcome from about."
