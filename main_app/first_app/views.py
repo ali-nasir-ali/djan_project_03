@@ -19,7 +19,7 @@ def todolist(request):
         paginator = Paginator(all_tasks, 5)
         page = request.GET.get('pg')
         all_tasks = paginator.get_page(page)
-        return render(request, 'todolist.html', {'all_tasks':all_tasks})
+    return render(request, 'todolist.html', {'all_tasks':all_tasks})
 
 def edit_task(request, task_id):
     if request.method == "POST":

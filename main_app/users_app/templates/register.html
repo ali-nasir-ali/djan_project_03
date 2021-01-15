@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+ 
+{% block head_title %} 
+<title> Register </title>
+{% endblock head_title %}
+ 
+{% block content %}
+<div class="container">
+ </br>
+  {% if messages %}
+   {% for message in messages %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+         {{ message  }}
+         <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+         </button>      
+      </div>
+   {% endfor %}
+  {% endif %}
+   <form method="POST" class="mt-5">
+     {% csrf_token %}
+
+     {{ register_form.as_p }}
+
+    <button type="submit">Register</button>  
+</div>
+
+ 
+{% endblock content %}

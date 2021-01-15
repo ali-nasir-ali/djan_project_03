@@ -1,12 +1,30 @@
 {% extends 'base.html' %}
- 
+{% load static %}
+
 {% block head_title %} 
- <title> index</title>
+ <title> index </title>
 {% endblock head_title %}
- 
 {% block content %}
+
 <div class="container">
- <h1>{{ index_text }}
+ <div class="row mt-5">
+   <div class="col-lg-4">
+     <img src="{% static 'images/pic-01.jpg' %}" alt="" width="360" height="250">
+   </div>
+    <div class="col-lg-4">
+     <img src="{% static 'images/pic-01.jpg' %}" alt="" width="360" height="250">
+   </div>
+    <div class="col-lg-4">
+     <img src="{% static 'images/pic-01.jpg' %}" alt="" width="360" height="250">
+   </div>
+ </div>
+<div class="row mt-5">
+  <div class="col-md-6 offset-md-3">
+    <p>qwer jybhb akjkasckjacjk kajsbcjcjbjbcakjb</p>
+    <p>qwer jybhb akjkasckjacjk kajsbcjcjbjbcakjb</p>
+    <p>qwer jybhb akjkasckjacjk kajsbcjcjbjbcakjb</p>
+  </div>  
+</div>
 </div> 
  
 {% endblock content %}

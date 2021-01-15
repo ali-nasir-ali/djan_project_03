@@ -8,10 +8,11 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!--body {background-image: var(--bs-gradient);}-->
 
     <title>{% block head_title %}{% endblock head_title %}</title>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#"><img src="{% static 'image/logo.png' %}"alt="Main_app"></a>
+  <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'image/logo.png' %}"alt="Main_app"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -27,14 +28,14 @@
   </div>
 </nav>
   </head>
-  <body>
+
+  <body class="bg-light">
   <div class="container">
 
- 
 {% block content %}
 {% endblock content %}
 
-    <h1>{{welcome_text}}</h1>
+   
   </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
