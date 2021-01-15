@@ -25,7 +25,7 @@ TO DO LIST
   <button type="submit" class="btn btn-primary col-lg-2">Add Task</button>
  </br></br>
  </form>
-    <table class="table table-hover">
+    <table class="table table-hover table-bordered text-center">
   <thead class="thead-dark">
     <tr>
       <th scope="col">Task</th>
@@ -40,16 +40,16 @@ TO DO LIST
     {% if obj.done %}    
         <tr class="table-success">
           <th>{{ obj.task}}</th>
-          <td><a href="{% url 'pending_task' obj.id %}">Mark This Pending</a></td>
-          <td><a href="{% url 'edit_task' obj.id %}">Edit</a></td>
-          <td><a href="{% url 'delete_task' obj.id %}">Delete</a></td>
+          <td><a href="{% url 'pending_task' obj.id %}"><button type="button" class="btn btn-secondary">Mark This Pending</button></a></td>
+          <td><a href="{% url 'edit_task' obj.id %}"><button type="button" class="btn btn-secondary">Edit</button></a></td>
+          <td><a href="{% url 'delete_task' obj.id %}"><button type="button" class="btn btn-danger">Delete</button></a></td>
         </tr>
     {% else %}    
         <tr>
           <th>{{ obj.task}}</th>
-          <td><a href="{% url 'complete_task' obj.id %}">Mark This Complete</a></td>
-          <td><a href="{% url 'edit_task' obj.id %}">edit</a></td>
-          <td><a href="{% url 'delete_task' obj.id %}">delete</a></td>
+          <td><a href="{% url 'complete_task' obj.id %}"><button type="button" class="btn btn-primary">Mark This Complete</button></a></td>
+          <td><a href="{% url 'edit_task' obj.id %}"><button type="button" class="btn btn-secondary">Edit</button></a></td>
+          <td><a href="{% url 'delete_task' obj.id %}"><button type="button" class="btn btn-danger">Delete</button></a></td>
         </tr>
     {% endif %}
    {% endfor %}
