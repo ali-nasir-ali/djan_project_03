@@ -1,4 +1,4 @@
-import django-heroku
+import django_heroku
 import os
 import environ 
 
@@ -42,6 +42,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Simplified static file serving.
+    # https://warehouse.python.org/project/whitenoise/
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'main_app.urls'
@@ -121,4 +124,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = "todolist"
 LOGIN_URL = "login"
 
+# Activate Django-Heroku.
 django_heroku.settings(locals())
