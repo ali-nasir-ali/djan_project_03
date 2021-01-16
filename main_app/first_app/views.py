@@ -40,15 +40,21 @@ def edit_task(request, task_id):
 @login_required
 def pending_task(request,task_id):
     task = TaskList.objects.get(pk=task_id)
-    task.done = False
-    task.save()
+    if task.manage == request.user:
+     task.done = False
+     task.save()
+    else:
+        messages.error(request,("Access denied"))  
     return redirect('todolist')
 
 @login_required
 def complete_task(request,task_id):
     task = TaskList.objects.get(pk=task_id)
-    task.done = True
-    task.save()
+    if task.manage == request.user:
+      task.done = True
+      task.save()
+    else:
+        messages.error(request,("Access denied"))  
     return redirect('todolist')
 
 @login_required
