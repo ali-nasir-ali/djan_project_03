@@ -16,7 +16,7 @@ def todolist(request):
             instance.manage = request.user
             instance.save()
         messages.success(request,("New Task Added"))    
-        return redirect('todolish')   
+        return redirect('todolist')   
     else:   
         all_tasks = TaskList.objects.filter(manage=request.user)
         paginator = Paginator(all_tasks, 10)
