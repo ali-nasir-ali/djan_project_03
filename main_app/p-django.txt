@@ -1,0 +1,2199 @@
+﻿1 ---- requirements
+Django == 2.2
+python3 = 3.7.1
+pip install django==2.2
+
+
+2---- starting the project - main points - 
+-
+Mkdir first folder
+-
+pipenv install django==2.2
+-
+pipenv shell
+-
+django-admin startproject main_app
+-
+cd main_app
+-
+./manage.py startapp first_app
+-
+# make a new file in first_app urls.py
+-
+# add address of the first-app’s urls.py in the main_app’s urls.py
+-
+# go to the first_app urls.py put in the address of the views of first app in it
+-
+# in the first_app views put in the http response to see if all are done right so far
+-
+./manage.py makemigrations
+-
+./manage.py migrate
+-
+./manage.py runserver
+-
+# now if we check the address in the browser the address of the 127.0.0.1:8000/task/
+-
+# make a new folder called templates in first_app 
+-
+# connect the views todolist with the templates so its html is rendered from there
+-
+# we can improve the html of the pages by using bootstrap templates in our html pages
+-
+# make a base.html file in the templates folder in the main directory right next to all the other apps , where we will put all our main html and extend it to other pages
+-
+# update the setting in the main_app so the template address is relevant 
+-
+# we can use the context and extend functionality of django to extend and streamline the project components
+-
+# to make the links inside the nav bar more dynamic we will use the jinja 2 which will be using in the other parts of the html 
+It's a python library 
+-
+
+
+-
+
+
+----     working on the project 
+python manage.py runserver 
+-
+We have to change our database file before executing this command
+After this command runs we will get a database file next to our manage.pg file in the root of our project folder 
+
+
+--
+ctrl + c
+-
+python manage.py makemigrations
+-
+python manage.py migrate 
+--
+ This way if there is any change sin our database they r all applied 
+
+
+-
+python manage.py startapp first_app
+-- this is our first app 
+-- we will also add this app is our main apps settings file under installed apps 
+
+
+-------------------- URLs 
+If we are visiting the domain.com/todolist or domain.com/task 
+We have to map them in the URLs 
+
+
+-- 
+When a user visits our website they are redirected to the main app URLs for there they are to the URLs of an app they want 
+3  #  making the first_app
+
+
+1- python manage.py startapp first_app
+2- then goto the setting page of the main app and put it under other installed apps
+
+
+INSTALLED_APPS = [
+   'django.contrib.admin',
+   'django.contrib.auth',
+   'django.contrib.contenttypes',
+   'django.contrib.sessions',
+   'django.contrib.messages',
+   'django.contrib.staticfiles',
+
+
+   # our apps
+   'first_app'
+]
+
+
+
+
+3 - Then go to the url of the main_app 
+
+
+from django.contrib import admin
+from django.urls import path, include
+
+
+urlpatterns = [
+   path('admin/', admin.site.urls),
+   path('task/', include('first_app.urls')),
+
+
+]
+
+
+4- make ane new file in first_app urls.py
+
+
+
+
+from django.urls import path
+from first_app import views
+
+
+urlpatterns = [
+   path('', views.todolist, name='todolist')
+
+
+]
+
+
+5- in the view of the first_app
+
+
+from django.shortcuts import render
+from django.http import HttpResponse
+
+
+# Create your views here.
+def todolist(request):
+   return HttpResponse("Welcome to task")
+
+
+6- make a new folder in first_app called templates , also make folders for css, js, images, html
+# connect it in the views of first_app
+
+
+<h1> welcome on the todolist </h1>
+
+
+
+
+7- in the views of first_app update the todolist function so its html is redirected from the templates todolist.html
+
+
+( request , html page, content )
+
+
+Content will always be a dictionary
+
+
+from django.shortcuts import render
+from django.http import HttpResponse
+
+
+# Create your views here.
+def todolist(request):
+   return render(request, 'todolist.html', {})
+
+
+
+
+8-  make the todolist.html in the first_app better by adding the bootstrap in it
+https://getbootstrap.com/docs/4.4/getting-started/introduction/
+# go to the link and get the starter template and paste it in the todolist.html
+# then go to the component section of the bootstrap website and select the nav bar and copy the basic template from there and paste it in the todolist.html
+# add the lis line in the <div> class=container so it looks better
+<!doctype html>
+<html lang="en">
+ <head>
+   <!-- Required meta tags -->
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+   <title>To-do-list</title>
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+ <a class="navbar-brand" href="#">Navbar</a>
+ <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+   <span class="navbar-toggler-icon"></span>
+ </button>
+ <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+   <div class="navbar-nav">
+     <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+     <a class="nav-item nav-link" href="#">Features</a>
+     <a class="nav-item nav-link" href="#">Pricing</a>
+     <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+   </div>
+ </div>
+</nav>
+ </head>
+ <body>
+ <div class="container">
+   <h1>welcome to the to do list</h1>
+ </div>
+   <!-- Optional JavaScript -->
+   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+ </body>
+</html>
+
+
+9- we can pass in the context that is the dictionary from the back end to the frontend  or in the html 
+
+
+def contact(request):
+   context = {
+       'welcome_text':"welcome from Jinja2."
+   }
+   return render(request, 'contact.html', context)
+
+
+And in the html we have to embed the other part
+
+
+<div class="container">
+   <h1>{{welcome_text}}</h1>
+ </div>
+
+
+10-  Templates and base html’s
+# we have to put the base html separate in the base.html and extend them to the other pages this way we don't have to repeat them
+{% extends 'base.html' %}
+{% block head_title %}
+pricing
+{% endblock head_title %}
+{% block content %}
+pricing
+{% endblock content %}
+
+
+
+
+11- update the settings file in the main_app
+
+
+TEMPLATES = [
+   {
+       'BACKEND': 'django.template.backends.django.DjangoTemplates',
+       'DIRS': [os.path.join(BASE_DIR, "templates")],
+       'APP_DIRS': True,
+       'OPTIONS': {
+
+
+12- all the urls at this time
+In the main_app
+
+
+from django.contrib import admin
+from django.urls import path, include
+
+
+urlpatterns = [
+   path('admin/', admin.site.urls),
+   path('Todolist/', include('first_app.urls')),
+]
+
+
+
+
+In the first_app
+urlpatterns = [
+   path('', views.todolist, name='todolist'),
+   path('contact/', views.contact, name='contact'),
+   path('about/', views.about, name='about'),
+   path('pricing/', views.pricing, name='pricing')
+]
+
+
+In the navbar of the base.html
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+ <a class="navbar-brand" href="#">Navbar</a>
+ <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+   <span class="navbar-toggler-icon"></span>
+ </button>
+ <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+   <div class="navbar-nav">
+     <a class="nav-item nav-link active" href="Todolist/">Home <span class="sr-only">(current)</span></a>
+     <a class="nav-item nav-link" href="about">About</a>
+     <a class="nav-item nav-link" href="pricing">Pricing</a>
+     <a class="nav-item nav-link" href="contatc">Contact</a>     
+     <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+   </div>
+ </div>
+</nav>
+
+
+
+
+13- using jinja 2 
+# jinja is a python library we can use in django to make it more dynamic 
+
+
+<div class="navbar-nav">
+     <a class="nav-item nav-link active" href="/">Home <span class="sr-only">(current)</span></a>
+     <a class="nav-item nav-link" href="{% url 'todolist' %}">To do list</a>
+     <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+     <a class="nav-item nav-link" href="{% url 'pricing' %}">Pricing</a>
+     <a class="nav-item nav-link" href="{% url 'contact' %}">Contact</a>     
+     <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+   </div>
+
+
+# if we want to change how it looks in the url we can change it in the first_app urls.py as its dynamic it will be not change any other place
+
+
+# to make the nav bar dark just change the bootstrap css commands from light to dark
+                                            
+<nav class="navbar navbar-expand-lg navbar-dark ((these two)) bg-dark">
+ <a class="navbar-brand" href="#">Navbar</a>
+ <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+   <span class="navbar-toggler-icon"></span>
+ </button>
+
+
+14- using the static file 
+To use static file we have to update the link in the setting file of the main_app 
+
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "templates")]
+
+
+At the end of the settings file 
+We can use the same os link from the dir at the top of the settings file
+
+
+# to change the image of the navbar
+Change the navebar brand with a image tag
+
+
+<title>{% block head_title %}{% endblock head_title %}</title>
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+ <a class="navbar-brand" href="#"><img src="{% static 'image/logo.png' %}"alt="Main_app"></a>
+ <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+   <span class="navbar-toggler-icon"></span>
+
+
+#### the important thing is every time we use a static inside a html we have to load it at the beginning of the file
+
+
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+
+4- # setting up Admin
+
+
+1-  Creating users 
+There are two kind of users in django superuser and a normal user
+# superuser have the admin powers and is created by
+Python manage.py createsuperuser
+User name : 
+User email: 
+Userpassword: 
+
+
+
+
+5- # Models in the first_app
+____________________
+l  id   l    task      l   done  l
+l____l________l_______l
+l                                       l
+l___________________l
+# before writing our models we have to visualize our database 
+# what kind of data and how much data
+# in the above data structure we will be needing two things the task and weather its done or not 
+# the id is generated by the django automatically
+
+
+
+
+# Create your models here.
+class TaskList(models.Model):
+   task = models.CharField(max_length=300)
+   done = models.BooleanField(default=False)
+
+
+ # and after making a changes in the models or urls or any other main structure of the django we have to make migrations
+Python manage.py makemigrations
+./manaage.py migrate
+./manage.py runserver
+
+
+# id inside django are automatically created for all fields 
+Its auto created , auto incremented and its a primary key
+ 
+## after making the migrations we can see a new file created by the django in
+first_app/migrations/0001_initial.py
+This is where all the fields with their main primary keys are stored
+
+
+
+
+# after they are made in the models they have to be registered with the admin.py of th first_app or its own app
+
+
+# if we don't want our models not to show we just have to register them on the admin of there apps 
+
+
+# it's easy to get models on the admin section only import them and then register them
+
+
+
+
+from django.contrib import admin
+from first_App.models import TaskList or from .models import TaskList
+
+
+# Register your models here.
+admin.site.register(TaskList)
+
+
+# If it's in the same app then we can import classes and functions into by just writing a ( . ) not the whole name of the parent app
+Select task list to change
+* Add task list
+Action:
+0 of 2 selected
+
+
+	Task list
+	
+
+	TaskList object (2)
+	
+
+	TaskList object (1)
+	2 task lists
+
+
+# in the website they are appearing like this because we haven't defined them yet
+from django.db import models
+
+
+# Create your models here.
+class TaskList(models.Model):
+   task = models.CharField(max_length=300)
+   done = models.BooleanField(default=False)
+
+
+   def __str__(self):
+       return self.task
+
+
+# after making the class __str__ they will appear a bit better
+Select task list to change
+* Add task list
+Action:
+0 of 2 selected
+
+
+	Task list
+	
+
+	milk
+	
+
+	make coffee
+	2 task lists
+
+
+# we can add them at the end to make them more readable and give them more functionality
+
+
+   def __str__(self):
+       return self.task + " - " + str(self.done)
+
+
+
+
+2 task lists
+
+
+	Task list
+	
+
+	milk - False
+	
+
+	make coffee - False
+	## now they will appear with their status as well
+
+
+
+
+
+
+6- displaying data on the front end  
+
+
+# we have to get it from the database , use the views to fetch it and send it to the template to present it 
+
+
+
+
+def todolist(request):
+   all_tasks = TaskList.objects.all
+   return render(request, 'todolist.html', {‘all_tasks’:all_tasks})
+
+
+
+
+# these the key values which have all the data from the database
+
+
+{‘all_tasks’:all_tasks}
+
+
+# once we have the data we can print them all using 
+{{ all_tasks }}
+# this will print all of it on the frontend in a form of json
+
+
+
+
+{% extends 'base.html' %}
+{% block head_title %}
+TO DO LIST
+{% endblock head_title %}
+{% block content %}
+<div class = "container">
+{% for obj in all_tasks %}
+   {{ obj.task}} | {{ obj.done }}
+   </br>
+{% endfor %}
+
+
+</div>
+{% endblock content %}
+
+
+# this will print it in a lines 
+
+
+# we can get a table format from bootstrap which will put all this data in a table moe presentable form
+
+
+https://getbootstrap.com/docs/5.0/content/tables/ 
+
+
+# this is the todolist.html
+
+
+{% extends 'base.html' %}
+{% block head_title %}
+TO DO LIST
+{% endblock head_title %}
+{% block content %}
+<div class = "container">
+   <table class="table table-hover">
+ <thead class="thead-dark">
+   <tr>
+     <th scope="col">Task</th>
+     <th scope="col">Done</th>
+     <th scope="col">Edit</th>
+     <th scope="col">DElete</th>
+   </tr>
+ </thead>
+ <tbody>
+{% for obj in all_tasks %}
+   <tr>
+     <th scope="row">{{ obj.task}}</th>
+     <td>{{ obj.done }}</td>
+     <td>Otto</td>
+     <td>@mdo</td>
+   </tr>
+{% endfor %}
+ </tbody>
+</table>
+</div>
+{% endblock content %}
+
+
+
+
+# now the data is presented in a data table form 
+
+
+# we can aslo add admin page link to our front end when we are in the development mode
+    
+<a class="nav-item nav-link" href="{% url 'admin:index' %}">Admin site</a>    
+
+
+
+
+
+
+7- adding data from the front end
+
+
+# we can add data directly from the front end
+By adding the form in html in templates
+ 
+Then backend by adding views.py form.py
+
+
+First get a form format from bootstrap and add it at top of the data strip in the todolist.html
+
+
+<div class = "container">
+</br>
+<form>
+ <div class="mb-3">
+ <input type="text" class="form-control" placeholder="New Task?">
+ 
+ <button type="submit" class="btn btn-primary">Submit</button>
+</br></br>
+</form>
+   <table class="table table-hover">
+ <thead class="thead-dark">
+  
+
+
+This will format the front end for the backend data
+
+
+## creating the back end for getting data from frontend
+ ######## it is recommended to name it forms.py
+Make a new file in the firat_app called forms.py
+
+
+
+
+from django import forms
+from first_app.models import TaskList
+
+
+class TaskForm(forms.ModelForm):##remember to cross the T and point the i
+   class Meta:
+       model = TaskList
+       fields = ['task', 'done']   
+
+
+From django we will import the forms 
+From our first_app models we will import tasklist
+
+
+Now we will make a class in which we will be adding the models or database that is TaskList
+And field will be editing that are ‘task’ and ‘done’
+
+
+Now in the views.py of the first_app
+
+
+### we need to clear this data flow in our mind
+
+
+Visit page , fill form and submit -> goes to same url -> post request in views -> in views, we connect with forms.py
+
+
+
+
+#### get and post
+When ever we load a page the backend will get the data for the frontend 
+But if we are putting data in the backend this in called post
+Or 
+Post request = when we send data to database
+Get request = when we retrieve data from database
+
+
+If it is a get request the django will get it from views and put it on templatest
+But if it is a post request the djang will get it from the templates put it though views then database then get its all the way back to the front end
+
+
+Or
+Views will check if its a get request it will just load the page 
+But if its a post request it will get the data from the templates save it into the database then load the page
+
+
+
+
+# we have to add this in the todolist.html 
+We willa dd mother post and csrf token so the django makes the data secure
+And we will name the task so we will know that its our data from the frontend in the databse
+
+
+<form method="POST">
+{% csrf_token %}
+ <div class="mb-3">
+ <input type="text" class="form-control" name="task" placeholder="New Task?">
+ 
+ <button type="submit" class="btn btn-primary">Submit</button>
+
+
+# now after this the data will go through views.py so we have to know if its a post request or not
+If it's not the user may be refreshing their page
+
+
+
+
+from django.shortcuts import render , redirect
+from django.http import HttpResponse
+from first_app.models import TaskList
+from first_app.forms import TaskForm
+# Create your views here.
+def todolist(request):
+   if request.method == "POST":
+       form = TaskForm(request.POST or None)
+       if form.is_valid():
+           form.save()
+       return redirect('todolist')  
+   else:
+       all_tasks = TaskList.objects.all
+       return render(request, 'todolist.html', {'all_tasks':all_tasks})
+
+
+
+
+# here we are getting the post and the form element is checking if they are none or post
+After that we use if form.is_valud method to check that the form is getting the correct form elements after that we use the save() method to save it in the form 
+
+
+
+
+8 - Adding message and Alert option
+
+
+To add the functionality of alert or popup just import the massage class
+After that put in the massage in the if loop if will be the two parameters first will be the request and the second will be the massage 
+
+
+from first_app.forms import TaskForm
+from django.contrib import messages
+# Create your views here.
+def todolist(request):
+   if request.method == "POST":
+       form = TaskForm(request.POST or None)
+       if form.is_valid():
+           form.save()
+       messages.success(request,("New messages addesd!"))   
+       return redirect('todolist.html')  
+   else:
+       all_tasks = TaskList.objects.all
+       return render(request, 'todolist.html', {'all_tasks':all_tasks})
+
+
+# we will also add this in the todolist.html it will first check if there are any new messages then it will execute the rest of the function , in which we will print the success massage
+
+
+</br>
+{% if messages %}
+  {% for message in messages %}
+   <div class="alert alert-info" role="alert">
+    {{ message  }}
+   </div>
+  {% endfor %}
+{% endif %}
+
+
+<form method="POST">
+{% csrf_token %}
+
+
+# we can also add this check before execution functionality in the print the whole table loop
+So  its not run every time the page is reloaded 
+# by just adding the if all_tasks at the beginning  
+
+
+ <tbody>
+{% if all_tasks %} 
+{% for obj in all_tasks %}
+   {% if obj.done %}   
+       <tr class="table-success">
+         <th>{{ obj.task}}</th>
+         <td>Completed</td>
+         <td>Edit</td>
+         <td>delete</td>
+       </tr>
+   {% else %}   
+       <tr>
+         <th>{{ obj.task}}</th>
+         <td>Not Completed</td>
+         <td>Edit</td>
+         <td>delete</td>
+       </tr>
+   {% endif %}
+{% endfor %}
+{% endif %}
+ </tbody>
+</table>
+
+
+
+
+
+
+# making a close button for the alert massage
+</br>
+{% if messages %}
+  {% for message in messages %}
+   <div class="alert alert-info alert-dismissible fade show" role="alert">
+    {{ message  }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+   </div>
+  {% endfor %}
+{% endif %}
+
+
+# alert-dismissible show the close sign on the alert message , coming from views
+from first_app.models import TaskList
+from first_app.forms import TaskForm
+from django.contrib  import messages
+# Create your views here.
+def todolist(request):
+   if request.method == "POST":
+       form = TaskForm(request.POST or None)
+       if form.is_valid():
+           form.save()
+       messages.success(request,("New Task Added"))   
+       return redirect('todolist')  
+   else:
+       all_tasks = TaskList.objects.all
+       return render(request, 'todolist.html', {'all_tasks':all_tasks})
+
+
+
+
+9 - Delete elements from the front end
+
+
+
+
+urlpatterns = [
+   path('', views.todolist, name='todolist'),
+   path('delete/<task_id>', views.'delete_task', name='delete_task'),
+   path('contact/', views.contact, name='contact'),
+   path('about/', views.about, name='about'),
+   path('pricing/', views.pricing, name='pricing')
+
+
+]
+The task is the variable that will take the id from the url or map it from url
+
+
+def delete_task(request,task_id):
+   task = TaskList.objects.get(pk=task_id)
+   task.delete()
+   return redirect('todolist')
+
+
+# adding the link in the todolist.html
+ 
+{% if obj.done %}   
+       <tr class="table-success">
+         <th>{{ obj.task}}</th>
+         <td>Completed</td>
+         <td>Edit</td>
+         <td><a href="{% url 'delete_task' obj.id %}">delete</a></td>
+       </tr>
+   {% else %}   
+       <tr>
+         <th>{{ obj.task}}</th>
+
+
+
+
+10 - Edit functionality
+Deleting anything was just getting the database id of the element editing is a bit different that we have to have a url a def in views and a html page so there we can add the single database element.
+In the urls of first_app
+
+
+urlpatterns = [
+   path('', views.todolist, name='todolist'),
+   path('delete/<task_id>', views.delete_task, name='delete_task'),
+   path('edit/<task_id>', views.edit_task, name='edit_task'),
+   path('contact/', views.contact, name='contact'),
+   path('about/', views.about, name='about'),
+   path('pricing/', views.pricing, name='pricing')
+]
+
+
+# in the views 
+def edit_task(request, task_id):
+   if request.method == "POST":
+       #form = TaskForm(request.POST or None)
+       #if form.is_valid():
+       #    form.save()
+       messages.success(request,("Task Edited"))   
+       return redirect('todolist')  
+   else:
+       task_obj = TaskList.objects.get(pk=task_id)
+       return render(request, edit.html', {'task_obj':task_obj})
+
+
+
+
+
+
+
+
+# we now updated the edit.html and the def in views 
+
+
+def edit_task(request, task_id):
+   if request.method == "POST":
+       task =TaskList.objects.get(pk=task_id)
+       form = TaskForm(request.POST or None, instance= task )
+       if form.is_valid():
+           form.save()
+       messages.success(request,("Task Edited"))   
+       return redirect('todolist')  
+   else:
+       task_obj = TaskList.objects.get(pk=task_id)
+       return render(request, 'edit.html', {'task_obj':task_obj})
+
+
+
+
+{% extends 'base.html' %}
+{% block head_title %}
+<title>Edit task</title>
+{% endblock head_title %}
+{% block content %}
+<div class="container">
+<h1>{{ task_obj.task }} </h1>
+<form method="POST" class="row">
+ {% csrf_token %}
+ <label class="col-lg-2"></label>
+ <input type="text" class="form-control col-lg-6" name="task" placeholder="{{task_obj.task}}" value="{{task_obj.task}}">
+ <button type="submit" class="btn btn-primary col-lg-2">Update Task</button>
+</div>
+{% endblock content %}
+
+
+# we have to update the edit button in the todolist.html
+ 
+ <td><a href="{% url 'edit_task' obj.id %}">edit</a></td>
+
+
+# as we have made the edit functionality but we are only passing two values there ( task name, id) , we also have to pass the value of the task done status.
+For that we will update the html so the hidden value of the task done status is passed as well then the data is being updated in the forms.
+
+
+# the new edit.html
+
+
+{% extends 'base.html' %}
+{% block head_title %}
+<title>Edit task</title>
+{% endblock head_title %}
+{% block content %}
+<div class="container">
+</br>
+
+
+<form method="POST" class="row">
+ {% csrf_token %}
+ <label class="col-lg-2"></label>
+ <input type="text" class="form-control col-lg-6" name="task" placeholder="{{task_obj.task}}" value="{{task_obj.task}}">
+ <input type="hidden" name="done" value="{{task_obj.done}}">
+ <button type="submit" class="btn btn-primary col-lg-2">Update Task</button>
+</div>
+{% endblock content %}
+
+
+
+
+11 - Marking tasks as Completed 
+We will make a url then make a def in  the views and make a html update
+
+
+
+
+urlpatterns = [
+   path('', views.todolist, name='todolist'),
+   path('delete/<task_id>', views.delete_task, name='delete_task'),
+   path('complete/<task_id>', views.complete_task, name='complete_task'),
+   path('edit/<task_id>', views.edit_task, name='edit_task'),
+   path('contact/', views.contact, name='contact'),
+   path('about/', views.about, name='about'),
+   path('pricing/', views.pricing, name='pricing')
+]
+
+
+
+
+
+
+def complete_task(request,task_id):
+   task = TaskList.objects.get(pk=task_id)
+   task.done = True
+   task.save()
+   return redirect('todolist')
+
+
+ {% if all_tasks %} 
+  {% for obj in all_tasks %}
+   {% if obj.done %}   
+       <tr class="table-success">
+         <th>{{ obj.task}}</th>
+         <td><a href="{% url 'complete_task' obj.id %}">Mark This Pending</a></td>
+         <td><a href="{% url 'edit_task' obj.id %}">Edit</a></td>
+         <td><a href="{% url 'delete_task' obj.id %}">Delete</a></td>
+       </tr>
+   {% else %}   
+       <tr>
+         <th>{{ obj.task}}</th>
+         <td><a href="{% url 'complete_task' obj.id %}">Mark This Complete</a></td>
+         <td><a href="{% url 'edit_task' obj.id %}">edit</a></td>
+         <td><a href="{% url 'delete_task' obj.id %}">delete</a></td>
+       </tr>
+
+
+
+
+12 - Marking stuff as pending
+
+
+Adding the urls
+urlpatterns = [
+   path('', views.todolist, name='todolist'),
+   path('delete/<task_id>', views.delete_task, name='delete_task'),
+   path('complete/<task_id>', views.complete_task, name='complete_task'),
+   path('pending/<task_id>', views.pending_task, name='pending_task'),
+   path('edit/<task_id>', views.edit_task, name='edit_task'),
+   path('contact/', views.contact, name='contact'),
+   path('about/', views.about, name='about'),
+   path('pricing/', views.pricing, name='pricing')
+]
+
+
+Adding the views def for pending
+
+
+
+
+def pending_task(request,task_id):
+   task = TaskList.objects.get(pk=task_id)
+   task.done = False
+   task.save()
+   return redirect('todolist')
+
+
+Adding the html
+ {% if all_tasks %} 
+  {% for obj in all_tasks %}
+   {% if obj.done %}   
+       <tr class="table-success">
+         <th>{{ obj.task}}</th>
+         <td><a href="{% url 'pending_task' obj.id %}">Mark This Pending</a></td>
+         <td><a href="{% url 'edit_task' obj.id %}">Edit</a></td>
+         <td><a href="{% url 'delete_task' obj.id %}">Delete</a></td>
+       </tr>
+   {% else %}   
+       <tr>
+         <th>{{ obj.task}}</th>
+         <td><a href="{% url 'complete_task' obj.id %}">Mark This Complete</a></td>
+         <td><a href="{% url 'edit_task' obj.id %}">edit</a></td>
+         <td><a href="{% url 'delete_task' obj.id %}">delete</a></td>
+       </tr>
+   {% endif %}
+  {% endfor %}
+ {% endif %}
+
+
+
+
+13 - Pagination
+
+
+We use pagination when we are using the get request , on the post request we are going to save data . 
+
+
+First step to use pagination is to import the module then update the todolist def , 
+After that we can change the html so it have the option to take the user data
+
+
+from django.shortcuts import render , redirect
+from django.http import HttpResponse
+from first_app.models import TaskList
+from first_app.forms import TaskForm
+from django.contrib  import messages
+from django.core.paginator import Paginator
+# Create your views here.
+def todolist(request):
+   if request.method == "POST":
+
+
+
+
+After this we have to put () on our TaskList.objects.all() and we need to create an instance for the paginator
+
+
+Instance = class() in the class two arguments on what objects we need pagination and how many objects on one page
+paginator =  Paginator(all_tasks, 
+
+
+We are creating a get request instance and calling it pages so it 
+
+
+
+
+  else:
+       all_tasks = TaskList.objects.all()
+       paginator = Paginator(all_tasks, 5)
+       page = request.GET.get('pg')
+       all_tasks = paginator.get_page(page)
+       return render(request, 'todolist.html', {'all_tasks':all_tasks})
+
+
+
+
+https://getbootstrap.com/docs/5.0/components/pagination/
+# from bootstrap we will get the html for pagination
+
+
+# Making html work
+
+
+Django code for pagination
+
+
+Previous page = {{ all_tasks.previous_page_number }}
+current page = {{ all_tasks.number }}
+Next page = {{ all_tasks.next_page_number }}
+Total number of pages = {{ all_tasks.paginator.num_pages }}
+
+
+We can add this in the search bar after the url to get to different pages 
+?pg=4
+This will take us to page number 4
+http://127.0.0.1:8000/Todolist/?pg=2
+
+
+</table>
+ <nav aria-label="Page navigation example">
+ <ul class="pagination justify-content-center">
+   <li class="page-item"><a class="page-link" href="?pg=1"><<</a></li>
+   <li class="page-item"><a class="page-link" href="?pg={{ all_tasks.previus_page_number }}">{{ all_tasks.previus_page_number }}</a></li>
+   <li class="page-item"><a class="page-link" href="?pg={{ all_tasks.number }}">{{ all_tasks.number }}</a></li>
+   <li class="page-item"><a class="page-link" href="?pg={{ all_tasks.next_page_number }}">{{ all_tasks.next_page_number }}</a></li>
+   <li class="page-item"><a class="page-link" href="#">>></a></li>
+ </ul>
+</nav>
+</div>
+{% endblock content %}
+ 
+
+
+# this will give us the next page
+
+
+  {{ all_tasks.next_page_number }}
+
+
+This will display the next page 
+
+
+   href="?pg={{ all_tasks.next_page_number }}
+
+
+
+
+To display the last game of the first page we have to set it right so it does not give us error
+Because they don't exists
+
+
+
+
+
+
+<nav aria-label="Page navigation example">
+ <ul class="pagination justify-content-center">
+
+
+   <li class="page-item"><a class="page-link" href="?pg=1"><<</a></li>
+
+
+   {% if all_tasks.has_previous %}
+     <li class="page-item"><a class="page-link" href="?pg={{ all_tasks.previous_page_number }}">{{ all_tasks.previous_page_number }}</a></li>
+   {% endif %} 
+  
+   <li class="page-item"><a class="page-link" href="?pg={{ all_tasks.number }}">{{ all_tasks.number }}</a></li>
+
+
+   {% if all_tasks.has_next %}
+     <li class="page-item"><a class="page-link" href="?pg={{ all_tasks.next_page_number }}">{{ all_tasks.next_page_number }}</a></li>
+   {% endif %}
+
+
+   <li class="page-item"><a class="page-link" href="?pg={{ all_tasks.paginator.num_pages }}">>></a></li>
+ </ul>
+</nav>
+</div>
+{% endblock content %}
+
+
+
+
+14 - tidying up the urls
+We will put the urls of the about and contact pages to rout from the first_app as they are now urls from the first_app
+from django.contrib import admin
+from django.urls import path, include
+from first_app import views as first_app_views
+
+
+urlpatterns = [
+   path('admin/', admin.site.urls),
+   path('Todolist/', include('first_app.urls')),
+   path('', first_app_views.index, name='index'),
+   path('contact/', first_app_views.contact, name='contact'),
+   path('about/', first_app_views.about, name='about'),
+   path('pricing/', first_app_views.pricing, name='pricing')
+
+
+]
+We can also import the views from main_app for them here
+We will also make a home page and all the home pages are called index , or index page
+
+
+We will also name our main_app views different for the future if we have to bring in views from different apps 
+
+
+# we will make a def in views and html for the index page
+
+
+
+
+def index(request):
+   context = {
+       'welcome_text':"welcome from index."
+   }
+   return render(request, 'index.html', context)
+
+
+
+
+
+
+{% extends 'base.html' %}
+{% block head_title %}
+<title> index</title>
+{% endblock head_title %}
+{% block content %}
+<div class="container">
+<h1>{{ index_text }}
+</div>
+{% endblock content %}
+
+
+
+
+15 - tidying up the todolist.html
+# we tidy up the todolist.html so there are buttons for edit and other stuff and the text is center aligned as well
+{% extends 'base.html' %}
+{% block head_title %}
+TO DO LIST
+{% endblock head_title %}
+{% block content %}
+<div class = "container">
+ </br>
+ {% if messages %}
+  {% for message in messages %}
+     <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>{{ message  }}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>     
+    </div>
+  {% endfor %}
+ {% endif %}
+
+
+<form method="POST" class="row">
+{% csrf_token %}
+ <label class="col-lg-4"></label>
+ <input type="text" class="form-control col-lg-6" name="task" placeholder="New Task?">
+ <button type="submit" class="btn btn-primary col-lg-2">Add Task</button>
+</br></br>
+</form>
+   <table class="table table-hover table-bordered text-center">
+ <thead class="thead-dark">
+   <tr>
+     <th scope="col">Task</th>
+     <th scope="col">Done</th>
+     <th scope="col">Edit</th>
+     <th scope="col">Delete</th>
+   </tr>
+ </thead>
+ <tbody>
+ {% if all_tasks %} 
+  {% for obj in all_tasks %}
+   {% if obj.done %}   
+       <tr class="table-success">
+         <th>{{ obj.task}}</th>
+         <td><a href="{% url 'pending_task' obj.id %}"><button type="button" class="btn btn-secondary">Mark This Pending</button></a></td>
+         <td><a href="{% url 'edit_task' obj.id %}"><button type="button" class="btn btn-secondary">Edit</button></a></td>
+         <td><a href="{% url 'delete_task' obj.id %}"><button type="button" class="btn btn-danger">Delete</button></a></td>
+       </tr>
+   {% else %}   
+       <tr>
+         <th>{{ obj.task}}</th>
+         <td><a href="{% url 'complete_task' obj.id %}"><button type="button" class="btn btn-primary">Mark This Complete</button></a></td>
+         <td><a href="{% url 'edit_task' obj.id %}"><button type="button" class="btn btn-secondary">Edit</button></a></td>
+         <td><a href="{% url 'delete_task' obj.id %}"><button type="button" class="btn btn-danger">Delete</button></a></td>
+       </tr>
+   {% endif %}
+  {% endfor %}
+ {% endif %}
+  </tbody>
+ </table>
+ <nav aria-label="Page navigation example">
+ <ul class="pagination justify-content-center">
+
+
+   <li class="page-item"><a class="page-link" href="?pg=1"><<</a></li>
+
+
+   {% if all_tasks.has_previous %}
+     <li class="page-item"><a class="page-link" href="?pg={{ all_tasks.previous_page_number }}">{{ all_tasks.previous_page_number }}</a></li>
+   {% endif %} 
+  
+   <li class="page-item"><a class="page-link" href="?pg={{ all_tasks.number }}">{{ all_tasks.number }}</a></li>
+
+
+   {% if all_tasks.has_next %}
+     <li class="page-item"><a class="page-link" href="?pg={{ all_tasks.next_page_number }}">{{ all_tasks.next_page_number }}</a></li>
+   {% endif %}
+
+
+   <li class="page-item"><a class="page-link" href="?pg={{ all_tasks.paginator.num_pages }}">>></a></li>
+ </ul>
+</nav>
+</div>
+{% endblock content %}
+
+
+
+
+16 - Bootstrapping the index.html
+
+
+We can change the whole frontend with bootstrap whicill look clean an tidy up
+
+
+https://getbootstrap.com/docs/5.0/utilities/colors/#background-gradient
+We just have to put the code in base.html main html body
+  </div>
+ </div>
+</nav>
+ </head>
+ <body class="bg-light">
+ <div class="container">
+
+
+{% block content %}
+{%
+
+
+# from unsplash pictures website we can get pics for our website
+
+
+https://unsplash.com/
+
+
+Add an images folder in a static of main root folder 
+
+
+Now we have to make a grid section in a index.html to learn more about grids we shlud go to the bootstrap grid section
+
+
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head_title %}
+<title> index</title>
+{% endblock head_title %}
+{% block content %}
+
+
+<div class="container">
+<div class="row mt-5">
+  <div class="col-lg-4">
+    <img src="{% static 'images/pic-01.jpg' %}" alt="" width="360" height="250">
+  </div>
+   <div class="col-lg-4">
+    <img src="{% static 'images/pic-01.jpg' %}" alt="" width="360" height="250">
+  </div>
+   <div class="col-lg-4">
+    <img src="{% static 'images/pic-01.jpg' %}" alt="" width="360" height="250">
+  </div>
+</div>
+<div class="row" mt-5>
+<p>qwer jybhb akjkasckjacjk kajsbcjcjbjbcakjb</p>
+<p>qwer jybhb akjkasckjacjk kajsbcjcjbjbcakjb</p>
+<p>qwer jybhb akjkasckjacjk kajsbcjcjbjbcakjb</p>
+</div>
+</div>
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+## USER_APP
+Now we are making A USER app were we can make there account and regiterations 
+
+
+1 - From terminal 
+Python manage.py startapp users_app
+
+
+2 -  after this we will add it in our installed apps 
+# Application definition
+
+
+INSTALLED_APPS = [
+   'django.contrib.admin',
+   'django.contrib.auth',
+   'django.contrib.contenttypes',
+   'django.contrib.sessions',
+   'django.contrib.messages',
+   'django.contrib.staticfiles',
+    # our apps
+    'First_app',    ## very important that we add the comma
+    'users_app'
+]
+
+
+ add a new file inside the users_app 
+3 - Urls.py
+
+
+from django.urls import path
+from users_app import views
+
+
+urlpatterns = [
+   path('register', views.register, name='register'),
+]
+
+
+ 4 -  in the users_app views
+
+
+from django.shortcuts import render
+from django.http import HttpResponse
+
+
+def register(request):
+   return HttpResponse("users working")
+
+
+And we have to update the urls of setting.py in root
+
+
+from django.contrib import admin
+from django.urls import path, include
+from first_app import views as first_app_views
+
+
+urlpatterns = [
+   path('admin/', admin.site.urls),
+   path('Todolist/', include('first_app.urls')),
+   path('account/', include('users_app.urls')),
+  
+   path('', first_app_views.index, name='index'),
+   path('contact/', first_app_views.contact, name='contact'),
+   path('about/', first_app_views.about, name='about'),
+   path('pricing/', first_app_views.pricing, name='pricing')
+]
+
+
+
+
+
+
+path('account/', include('users_app.urls')),
+
+
+5 -  here this url will link the new user_app urls with the rest of the app
+# now we can just type
+http://127.0.0.1:8000/account/register
+Domain name / account / register 
+And we will get the html response from our views in the users_app 
+Going through main settings ursl to >urls of user_app to > view.py of users_app
+
+
+
+
+from django.shortcuts import render
+from django.contrib.auth.forms import UserCreationForm
+
+
+def register(request):
+   register_form = UserCreationForm()
+   return render(request, 'register.html', {'register_form':register_form})
+
+
+return render(request, 'register.html', {'register_form':register_form})
+          Taking the request , and render the html , and passing our contex which is our form itself
+6 -  we have to import a django forms which is made to get a users data in the mos safe way
+And after this we have to make a templates folder in the users_app and make a register.html page
+
+
+
+
+{% extends 'base.html' %}
+{% block head_title %}
+<title> Register >/title>
+{% endblock head_title %}
+{% block content %}
+<div class="container">
+  <form method="POST" class="mt-5">
+    {% csrf_token %}
+    {{ register_form.as_p }}
+   <button type="submit">Register</button> 
+</div>
+{% endblock content %}
+
+
+7 - # this is our new register.html where we are getting our form registration from our views.py of users_app
+
+
+After this we can use the post request but as was the case with the first_app we have to update our views so it can take the form request and update the database and also send us a confirmation
+
+
+Where we have to do three things save form, handle messages , add redirect
+
+
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+## make sure to get all the imports
+
+
+def register(request):
+   if request.method=="POST":
+      register_form = UserCreationForm(request.POST)
+      if register_form.is_valid():
+         #register_form.save()
+         messages.success(request, ("new user created"))
+         return redirect('register')
+   else:   
+      register_form = UserCreationForm()
+   return render(request, 'register.html', {'register_form':register_form})
+## and make sure the return render is outside the if/else loop
+Or is at the same base line
+
+
+
+
+
+
+8 - # to add an email to the registration form we have to create a from.py and request replace the django standard form in the views 
+
+
+Make a forms.py in users_app 
+
+
+Here we will create a custom registration form which will inherent from the usercreationform
+
+
+
+
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.forms import fields
+from django.contrib.auth.models import User
+
+
+class CustomRegisterForm(UserCreationForm):
+   email = forms.EmailField() ## 1-
+
+
+   class Meta:
+       model = User
+       fields = ['username', 'email', 'password1', 'password2']
+
+
+The fields elements order is very important because the will appear in the form in this order
+# 1- this filed is True on general and if we want the emails not compulsory just write inside False
+   email = forms.EmailField(required=True) or email = forms.EmailField(required=False) 
+
+
+
+
+# now update the views.py 
+
+
+from django.shortcuts import render, redirect
+from .forms import CustomRegisterForm
+from django.contrib import messages
+
+
+def register(request):
+   if request.method=="POST":
+      register_form = CustomRegisterForm(request.POST)
+      if register_form.is_valid():
+         register_form.save()
+         messages.success(request, ("new user created"))
+         return redirect('register')
+   else:   
+      register_form = CustomRegisterForm()
+   return render(request, 'register.html', {'register_form':register_form})
+
+
+
+
+9 - Crispy forms
+These are the django forms which makes the forms looks better 
+
+
+pip install django-crispy-forms or pipenv (in our instance ) 
+
+
+After installation we have to add it in the settings under installed apps
+
+
+  'django.contrib.messages',
+   'django.contrib.staticfiles',
+    # our apps
+    'first_app',
+    'users_app',
+    'crispy_forms'
+]
+
+
+## and at the end of settings file add this because crispy supports version 2 , to bring that to our version 4
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "templates")]
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+We have to add this at the top of register.html to load the crispy in this html page
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}
+<title> Register </title>
+{% endblock head_title %}
+
+
+The pipe | is used for filter options 
+{% endfor %}
+ {% endif %}
+  <form method="POST" class="mt-5">
+    {% csrf_token %}
+
+
+    {{ register_form|crispy }}
+
+
+   <button type="submit">Register</button> 
+</div>
+
+
+{% endblock content %}
+
+
+The crispy forms make the forms load , look and handle errors a lot better the page does not go to the django error page it just shows all the errors on the same page and in alot better way 
+
+
+10 - Grid layout 
+ In a grid system all we have to do is add a class to start adding bootstrap styles
+
+
+ <form method="POST" class="mt-5 col-6">
+    {% csrf_token %}
+
+
+    {{ register_form|crispy }}
+
+
+   <button class="btn btn-primary mb-5" type="submit">Register</button> 
+</div>
+{% endblock content %}
+
+
+
+
+
+
+11 - login logout
+
+
+For login and logout we can use django built in views functions all we have to do to use them is to import them in and after that because they are built by django they ave a standard form the follow we have to build those files and folders as well to make it work  
+
+
+### urls
+
+
+from django.urls import path
+from users_app import views
+from django.contrib.auth import views as auth_views
+
+
+urlpatterns = [
+   path('register', views.register, name='register'),
+   path('login', auth_views.LoginView.as_view(), name='login'),
+   path('logout', auth_views.LogoutView.as_view(), name='logout'),
+]
+
+
+### we can also put in the template/login.html directly in the urls
+   
+path('login', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+
+
+### The login.html
+
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}
+<title> Login </title>
+{% endblock head_title %}
+{% block content %}
+<div class="container">
+</br>
+ <h2>Login here </h2>
+ {% if messages %}
+  {% for message in messages %}
+ 
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ message  }}
+        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>     
+     </div>
+  {% endfor %}
+ {% endif %}
+  <form method="POST" class="mt-5 col-6">
+    {% csrf_token %}
+    {{ form|crispy }}  ###### we can see the change in here
+   <button class="btn btn-primary mb-5" type="submit">Register</button> 
+</div>
+{% endblock content %}
+
+
+
+
+
+
+# by default the django login and out forms use there own routings so if we login though them they will take us to domain name / accounts / profile 
+We can change that by providing an alternative link in settings in root
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "templates")]
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+LOGIN_REDIRECT_URL = "todolist"
+
+
+
+
+
+
+### log out
+
+
+Just make a new logout.html and copy past the login in there and remove the other stuff after this make the urls  and it should start working
+All this does is we are replacing the django default logout page
+# we just have to add this at the end of nav bar for the log in functionality as 
+   </div>
+ </div>
+ {% if user.is_authenticated %}
+  <div class="form-inline my-2 my-lg-0">
+    <p>{{ user.username }}</p>
+    <a href="{% url 'logout' %} ">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">LOG OUT</button></a>
+  </div>
+  {{ else }}
+    <p> log out</p>
+  {{ endif }}   
+</nav> 
+ </head>
+ <body class="bg-light">
+ <div class="container">
+
+
+
+
+# we can add buttons to the nave bar in the base.html 
+Login logout and register 
+
+
+    <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+   </div>
+ </div>
+ {% if user.is_authenticated %}
+  <div class="form-inline my-2 my-lg-0">
+    <div class="p-s bg-dark mr-2 text-white">LOG IN as {{ user.username }}</div>
+    <a href="{% url 'logout' %} ">
+    <button class="btn btn-info my-2 my-sm-0" type="submit">LOG OUT</button></a>
+  </div>
+ {% else %}
+  <a href="{% url 'login' %} ">
+       <button class="btn btn-success mr-2 my-2 my-sm-0" type="submit">LOG IN</button></a>
+   <a href="{% url 'register' %} ">
+       <button class="btn btn-primary my-2 my-sm-0" type="submit">REGISTER</button></a>
+ {% endif %}   
+</nav> 
+ </head>
+
+
+
+
+## decorators in django
+
+
+Decorators are prebuilt functions we can call on and use in our apps
+## They are pre defined and we can apply them over other functions 
+In django we can use decorators for many different uses
+
+
+Here we will be using it to control access to the todolist views in the first_app views.py
+
+
+from django.contrib.auth.decorators import login_required
+@login_required
+def todolist(request):
+   if request.method == "POST":
+      
+
+
+Just have to import the django login auths
+And decorate the functions we want only to be accessible by the login users only
+
+
+We will get an urls redirection errors 
+All we need is to put the login at the end of settings 
+
+
+
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "templates")]
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+LOGIN_REDIRECT_URL = "todolist"
+LOGIN_URL = "login"
+
+
+
+
+
+
+## Adding user relationship with data elements
+
+
+For this to take effect we have to 
+stop server and add foreignkey
+Delete all current items
+Run commands, make migrations and migrate
+Testing with different user ids
+
+
+
+
+ In models we have to add a new elements that is the forenkey and add in the first parameter of the model that is user and the second parameter will be to add delete cascade which will delete all of the users data in case the delete their account
+
+
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
+
+# Create your models here.
+class TaskList(models.Model):
+   manage = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+   task = models.CharField(max_length=300)
+   done = models.BooleanField(default=False)
+
+
+
+
+# here we are putting in a instance which will save the user and inside the form we will add a false so it will slowed down for the instance to save it first
+
+
+@login_required
+def todolist(request):
+   if request.method == "POST":
+       form = TaskForm(request.POST or None)
+       if form.is_valid():
+           instance = form.save(commit=False)
+           instance.manage = request.user
+           instance.save()
+       messages.success(request,("New Task Added"))   
+       return redirect('todolist')  
+   else:
+
+
+
+
+Instead of accessing all the users data , we will filter it out to just the user which is signed in
+ 
+ return redirect('todolist')  
+   else:
+       all_tasks = TaskList.objects.filter(manage=request.user)
+       paginator = Paginator(all_tasks, 10)
+       page = request.GET.get('pg')
+
+
+
+
+## Accessing the edit ,delete and complete functions
+As we have put the user specific access on the todolist page we have to do the same for edit and other functions but from other html pages
+
+
+<div class="container">
+</br>
+{% if task_obj.manage == request.user %}
+  <form method="POST" class="row">
+   {% csrf_token %}
+   <label class="col-lg-2"></label>
+   <input type="text" class="form-control col-lg-6" name="task" placeholder="{{task_obj.task}}" value="{{task_obj.task}}">
+   <input type="hidden" name="done" value="{{task_obj.done}}">
+   <button type="submit" class="btn btn-primary col-lg-2">Update Task</button>
+{% else %}
+<p> Acces redtrited </p>
+{% endif %}
+</div>
+
+
+
+
+
+
+## Putting app on cloud
+
+
+github ; online container ,to save track and share our code
+Git - help us to push our code to github
+Heroku - online server , to run web applications online
+K cli - to help us control heroku from terminal
+
+
+To push stuff on heroku we have to make eaccount there and also download it on our machine
+
+
+After this we have to have a dependency requirement text file
+pipenv freeze > requirement.txt
+
+
+## make sure this file is in base directory where manage.py is
+## we can make a .gitignore file and add all the things we don't want to push on th github
+ 
+We can copy past what other developer do for python on github
+https://github.com/github/gitignore/blob/master/Python.gitignore
+Just copy the raw and past it in the .gitignore file on the local vs code
+
+
+## pushing to cloud
+We have to change settings.py 
+Debug mode
+Secret key
+Allowed hosts
+
+
+
+
+# secret key
+We have to hide this key when the app is in production
+This should only be accessible by the host itself no one else
+https://django-environ.readthedocs.io/en/latest/
+
+
+
+
+Install django-environ
+
+
+## make sure this file is in base directory where manage.py is
+Create .env file in base dir
+Import and add all required code in settings.py
+Add .env in .gitignore file
+
+
+# MAKE A .ENV         FILE AND add the variables these can be changed as they are only variables
+
+
+DJANGO_SECRET_KEY        = secret key strings here
+DJANGO_DEBUG             = True
+DJANGO_ALLOWED_HOSTS = []
+##### have to be careful that we do not leave any spaces in between the .env elements
+
+
+The updated setting.py
+
+
+import os
+import environ
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+env = environ.Env(SECRET_KEY = str,)
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
+
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env('DJANGO_SECRET_KEY')
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env('DJANGO_DEBUG')
+ALLOWED_HOSTS = env('DJANGO_ALLOWED_HOSTS')
+
+
+
+
+We have to pass the allowed host directly
+.env
+DJANGO_SECRET_KEY=
+DJANGO_DEBUG=True
+DJANGO_ALLOWED_HOSTS='127.0.0.1'
+
+
+And in the setting.py
+
+
+DEBUG = env('DJANGO_DEBUG')
+
+
+ALLOWED_HOSTS = [env('DJANGO_ALLOWED_HOSTS')]
+
+
+# Application definition
+
+
+and we can put the list braces on in the setting.py directly
+
+
+
+
+### final push
+Before all this we must install heroku on the local system
+snap install heroku --classic
+
+
+Pushing the project to heroku
+
+
+pip install django-heroku
+ 
+On settings.py at top
+Import django-heroku
+
+
+At the bottom offsetting.py
+django_heroku.settings(locals())
+
+
+Now we have to create a project on heroku
+keroku create project_name
+
+
+## this project name will also be the heroku domain name
+
+
+Now to push the project on github 
+git  commit -m “comments”
+git  push original master
+ 
+## now to push it on the heroku
+
+
+git  push heroku master
+
+
+We might get an error about static file path , at the end of settin.py add the path
+
+
+        STATIC_ROOT = os.path.join(BASE_DIR, ‘staticfiles’)
+
+
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "templates")]
+
+
+
+
+For django-heroku in settings.py
+
+
+import django-heroku
+import os
+import environ
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+LOGIN_REDIRECT_URL = "todolist"
+LOGIN_URL = "login"
+
+
+django_heroku.settings(locals())
+
+
+
+
+Can get more deployment help from there
+https://dashboard.heroku.com/apps/teamsspiret/settings
+
+
+## WSGI
+Web server gate interface
+
+
+## gunicorn
+This app help maintain our app once its deployed it handles all the migrations and any crashes that might be needed
+
+
+pip install gunicorn
+
+
+Make a file in Procfile ( with the capital )
+And put this inside
+https://dashboard.heroku.com/apps/teamsspiret/settings
+
+
+Make a folder staticfiles and inside a file name .keep
+
+
+After heroku git push set the three keys
+
+
+heroku config:set DJANGO_SECRET_KEY=”with the secret inside”
+heroku config:set DJANGO_DEBUG=False
+heroku config:set DJANGO_ALLOWED_HOSTS='eat.herokuapp.com'
+
+
+----
+
+
+After this we have to access the heroku bash to manage , migrate and create a super user 
+
+
+heroku run bash
+python manage.py migrate
+ python manage.py createsuperuser
+In the future if we make any changes to the app we have to first deploy t to github then heroku to keep track of all the changes
